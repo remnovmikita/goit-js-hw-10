@@ -32,3 +32,16 @@ main {
 main:has(.back-link) {
   text-align: center;
 }
+
+
+main a{
+  background-color: blue;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 30px;
+}
+main a:hover,
+main a:focus{
+  background-color: tomato;
+  color: black;
+}
