@@ -15,7 +15,20 @@ const secondsEl = document.querySelector("[data-seconds]");
 const input = document.querySelector("#datetime-picker");
 // const btnStop = document.querySelector('.stop-timer');
 
-buttonTime.disablet = true;
+const buttonOn = () =>{
+    input.disabled = false;
+    buttonTime.disabled = false;
+    buttonTime.style.backgroundColor  = "#4e75ff";
+    buttonTime.style.color = "#fff";
+}
+const buttonOff = () =>{
+  input.disabled = true;
+   buttonTime.style.backgroundColor  = "#cfcfcf";
+    buttonTime.style.color = "#989898";
+    buttonTime.disabled = true;
+}
+
+
 
 const options = {
   enableTime: true,
@@ -25,9 +38,6 @@ const options = {
   onClose(selectedDates) {
     const pickedDate = selectedDates[0];
     if (pickedDate <= new Date()) {
-       buttonTime.style.backgroundColor  = "#cfcfcf";
-    buttonTime.style.color = "#989898";
-    buttonTime.disablet = true;
         iziToast.warning({
             close: true,
             message: 'Please choose a date in the future',
@@ -35,11 +45,8 @@ const options = {
 });
       return;
     }
+    buttonOn();
     userSelectedDate = pickedDate;
-    buttonTime.disablet = false;
-     buttonTime.style.backgroundColor  = "#4e75ff";
-    buttonTime.style.color = "#fff";
-    
   },
 };
 
@@ -71,9 +78,7 @@ function convertMs(ms) {
 buttonTime.addEventListener("click", () => {
 
   if (!userSelectedDate) {
-    buttonTime.disabled = true;
-    buttonTime.style.backgroundColor  = "#cfcfcf";
-    buttonTime.style.color = "#989898";
+    buttonOff();
     return;
   }
   const timer = setInterval(() =>{
@@ -85,9 +90,7 @@ buttonTime.addEventListener("click", () => {
     minutesEl.textContent = "00";
     secondsEl.textContent = "00";
     buttonTime.disabled = false;
-    input.disabled = false;
-    buttonTime.style.backgroundColor  = "#4e75ff";
-    buttonTime.style.color = "#fff";
+    buttonOn();
     return
   }
   const {days , hours, minutes, seconds} = convertMs(diff);
@@ -95,9 +98,6 @@ buttonTime.addEventListener("click", () => {
     hoursEl.textContent = addLeadingZero(hours);
     minutesEl.textContent = addLeadingZero(minutes);
     secondsEl.textContent = addLeadingZero(seconds);
-    buttonTime.disabled = true;
-    input.disabled = true;
-    buttonTime.style.backgroundColor  = "#cfcfcf";
-    buttonTime.style.color = "#989898";
+    buttonOff();
     }, 1000);
 });

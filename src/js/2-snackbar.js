@@ -1,5 +1,4 @@
 const form = document.querySelector('.form');
-const btn = document.querySelector('.form button');
 const input = document.querySelector('[name="delay"]');
 
 
@@ -9,33 +8,36 @@ import iziToast from "izitoast";
 // Додатковий імпорт стилів
 import "izitoast/dist/css/iziToast.min.css";
 
-const userValue = (x) =>{
+const userValue = (time, nameElement) =>{
     return new Promise((resolve, reject) =>{
-        console.log(`${x}`);
-        const time = Number(input.value);
-        const nameElement = form.elements.state.value;
         setTimeout(() =>{
             if (nameElement === "fulfilled" ){
-                resolve("lalalalal");
+                resolve(time);
             } else{
-                reject("ahahahaha");
+                reject(time);
             }
         }, time);  
     });
 }
 
 form.addEventListener("submit", event =>{
+    const time = Number(input.value);
+    const nameElement = form.elements.state.value;
+    if(!nameElement){
+        iziToast.warning({
+      position: "topCenter",
+      message: "❗ Please select Fulfilled or Rejected before starting",
+    });
+    return;
+    }
     event.preventDefault(); 
-        const time = Number(input.value);
-      userValue(name)
+      userValue(time, nameElement)
           .then( x => iziToast.success({
             position: 'topCenter',
-            message: `✅ Fulfilled promise in ${time}ms`,
-
+            message: `✅ Fulfilled promise in ${x}ms`,
             }))   
-          
             .catch(error => iziToast.error({
-            message: `❌ Rejected promise in ${time}ms`,
+            message: `❌ Rejected promise in ${error}ms`,
             position: 'topCenter',
     }));
 });
